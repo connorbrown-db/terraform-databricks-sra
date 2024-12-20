@@ -47,11 +47,3 @@ variable "tags" {
   default     = {}
 }
 
-variable "client_secret" {
-  type        = string
-  description = "(Required) The client secret for the service principal"
-}
-
-variable "application_id" {
-	type = string
-}

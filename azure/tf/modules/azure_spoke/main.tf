@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 # Define subnets using cidrsubnet function
 locals {
   subnets = {
@@ -110,10 +112,10 @@ resource "azurerm_subnet" "host" {
 
 # Create the privatelink subnet
 resource "azurerm_subnet" "privatelink" {
-  name                                      = "${var.prefix}-privatelink"
-  resource_group_name                       = azurerm_resource_group.this.name
-  virtual_network_name                      = azurerm_virtual_network.this.name
-  private_endpoint_network_policies_enabled = true
+  name                              = "${var.prefix}-privatelink"
+  resource_group_name               = azurerm_resource_group.this.name
+  virtual_network_name              = azurerm_virtual_network.this.name
+  private_endpoint_network_policies = "Enabled"
 
   address_prefixes = [local.subnets["privatelink"]]
 }

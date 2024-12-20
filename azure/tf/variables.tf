@@ -1,7 +1,3 @@
-variable "application_id" {
-	type = string
-	description = "(Required) Application ID in Hub unitycatalog.tf"
-}
 variable "databricks_account_id" {
   type        = string
   description = "(Required) The Databricks account ID target for account-level operations"
@@ -33,11 +29,10 @@ variable "public_repos" {
 }
 
 variable "spoke_config" {
-  type = list(object(
+  type = map(object(
     {
-      prefix = string
-      cidr   = string
-      tags   = map(string)
+      cidr = string
+      tags = map(string)
     }
   ))
   description = "(Required) List of spoke configurations"
@@ -54,12 +49,7 @@ variable "tags" {
   default     = {}
 }
 
-variable "client_secret" {
+variable "subscription_id" {
   type        = string
-  description = "(Required) The client secret for the service principal"
-}
-
-variable "databricks_app_object_id" {
-  type        = string
-  description = "(Required) The object ID of the AzureDatabricks App Registration"
+  description = "(Required) Subscription ID for the Azure deployment."
 }

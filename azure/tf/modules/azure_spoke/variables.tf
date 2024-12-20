@@ -89,11 +89,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "databricks_app_object_id" {
-  type        = string
-  description = "(Required) The object ID of the AzureDatabricks App Registration"
-}
-
 variable "hub_private_link_info" {
   type = object({
     dns_zone_id = string
@@ -113,3 +108,4 @@ variable "boolean_create_private_dbfs" {
   type        = bool
   default     = true
 }
+

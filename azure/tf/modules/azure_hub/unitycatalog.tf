@@ -35,7 +35,7 @@ resource "azurerm_storage_account" "unity_catalog" {
 # Define an Azure Storage Container resource
 resource "azurerm_storage_container" "unity_catalog" {
   name                  = "${local.prefix}-container"
-  storage_account_name  = azurerm_storage_account.unity_catalog.name
+  storage_account_id    = azurerm_storage_account.unity_catalog.id
   container_access_type = "private"
 }
 
@@ -58,26 +58,16 @@ resource "databricks_metastore" "this" {
 }
 
 # Define a Databricks Metastore Data Access resource
-# TODO - figure out how to test internally with MI
 resource "databricks_metastore_data_access" "this" {
   metastore_id = databricks_metastore.this.id
-  name         = "${local.prefix}-dac"
-  # azure_managed_identity {
-  #   access_connector_id = azurerm_databricks_access_connector.unity_catalog.id
-  # }
-  azure_service_principal {
-    directory_id   = local.tenant_id
-    application_id = var.application_id
-    client_secret  = var.client_secret
+  name         = "${local.prefix}-mi-dac"
+  azure_managed_identity {
+    access_connector_id = azurerm_databricks_access_connector.unity_catalog.id
   }
 
   is_default = true
-
-  lifecycle {
-    ignore_changes = [azure_service_principal]
-  }
 }
 
-resource "databricks_group" "this" {
-  display_name = "${local.prefix}-uc-owners"
-}
+# resource "databricks_group" "this" {
+#   display_name = "${local.prefix}-uc-owners"
+# }
